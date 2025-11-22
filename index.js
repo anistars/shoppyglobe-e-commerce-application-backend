@@ -4,6 +4,7 @@ const mongoURI = 'mongodb://localhost:27017/shoppyglobe';
 const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const app = express();
+app.use(express.json());
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 
@@ -15,3 +16,8 @@ mongoose.connect(mongoURI)
   .catch((err) => {
     console.error('MongoDB connection error:', err);
   });
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
