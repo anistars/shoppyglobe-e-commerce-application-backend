@@ -2,11 +2,12 @@ const express = require('express');
 const routes = express.Router();
 
 const cartController = require('../controllers/cartController');
+const { protect } = require('../middleware/authMiddleware');
 
 // Route to add an item to the cart
-routes.post('/add', cartController.addItemToCart);
+routes.post('/add', protect, cartController.addItemToCart);
 // Route to remove an item from the cart
-routes.delete('/remove', cartController.removeItemFromCart);
+routes.delete('/remove', protect, cartController.removeItemFromCart);
 // Route to update the quantity of a cart item
-routes.put('/update', cartController.updateCartItemQuantity);
+routes.put('/update', protect, cartController.updateCartItemQuantity);
 module.exports = routes;
