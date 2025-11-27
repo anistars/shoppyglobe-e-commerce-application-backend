@@ -8,13 +8,13 @@ routes.get('/', getAllProducts);
 // Route to get a single product by ID
 routes.get('/:id', getProductById);
 
-// Route to create a new product
-routes.post('/', createProduct);
+// // Route to create a new product
+// routes.post('/', createProduct);
 
-// Route to update an existing product
-routes.put('/:id', updateProduct);
+// // Route to update an existing product
+// routes.put('/:id', updateProduct);
 
-// Route to delete a product
-routes.delete('/:id', deleteProduct);
+// // Route to delete a product
+// routes.delete('/:id', deleteProduct);
 
 module.exports = routes;

@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
-const mongoURI = 'mongodb://localhost:27017/shoppyglobe'; 
+
 const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const authRoutes = require('./routes/authRoutes');
@@ -9,23 +8,24 @@ const authRoutes = require('./routes/authRoutes');
 const app = express();
 app.use(express.json());
 
-const JWT_SECRET = "your_jwt_secret_key";
+// ================== API REQUEST LOGGING (Assignment Requirement) ==================
+app.use((req, res, next) => {
+  res.on('finish', () => {
+    console.log(`${req.method} ${req.originalUrl} - ${res.statusCode}`);
+  });
+  next();
+});
 
-app.set("jwt-secret", JWT_SECRET);
+// ================== ROUTES ==================
 app.use('/api/products', productRoutes);
-app.use('/api/cart', cartRoutes);
+app.use('/api/cart', cartRoutes);      // Routes already use protect middleware
 app.use('/api/auth', authRoutes);
 
-mongoose.connect(mongoURI)
-  .then(() => {
-    console.log('Connected to MongoDB successfully!');
-    // You can start defining schemas and models here
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err);
-  });
+// ================== MONGODB CONNECTION ==================
+mongoose.connect('mongodb://localhost:27017/shoppyglobe')
+  .then(() => console.log('Connected to MongoDB successfully!'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// ================== START SERVER ==================
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
